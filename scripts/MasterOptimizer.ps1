@@ -5,10 +5,26 @@ Clear-Host
 Write-Host "===============================================" -ForegroundColor Cyan
 Write-Host "       WINOPTIMIZE PREMIUM - MASTER MODE       " -ForegroundColor White -BackgroundColor Blue
 Write-Host "===============================================" -ForegroundColor Cyan
+
+$ScriptDir = $PSScriptRoot
+$BackupScript = Join-Path $ScriptDir "BackupManager.ps1"
+
+Write-Host "RECOMENDAÇÃO: Crie um ponto de restauração antes de continuar." -ForegroundColor Yellow
+$resp = Read-Host "Deseja criar um ponto de restauração agora? (S/N)"
+if ($resp -eq 'S' -or $resp -eq 's') {
+    if (Test-Path $BackupScript) {
+        # Carrega as funções do BackupManager
+        . $BackupScript
+        Create-RestorePoint
+    } else {
+        Write-Host "ERRO: BackupManager.ps1 não encontrado!" -ForegroundColor Red
+    }
+}
+
+Write-Host ""
 Write-Host "Iniciando otimização completa do Windows 11..." -ForegroundColor Gray
 Write-Host ""
 
-$ScriptDir = $PSScriptRoot
 
 # Função para rodar scripts
 function Run-Optimization($Name, $File) {
