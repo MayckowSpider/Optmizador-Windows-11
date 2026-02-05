@@ -1,7 +1,7 @@
 # WinOptimize Premium - Restore Defaults (Windows 11)
-# Restaura as configurações originais do Windows.
+# Restaura as configuracoes originais do Windows.
 
-Write-Host "--- Restaurando Configurações Originais ---" -ForegroundColor Yellow
+Write-Host "--- Restaurando Configuracoes Originais ---" -ForegroundColor Yellow
 
 function Set-RegKey($Path, $Name, $Value) {
     try {
@@ -25,13 +25,13 @@ Set-RegKey "HKCU:\Software\Policies\Microsoft\Windows\Explorer" "DisableSearchBo
 Set-RegKey "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarDa" 1
 Set-RegKey "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarMn" 1
 
-# 3. Serviços
-Write-Host ">>> Reativando serviços essenciais..." -ForegroundColor Gray
+# 3. Servicos
+Write-Host ">>> Reativando servicos essenciais..." -ForegroundColor Gray
 Set-Service -Name "DiagTrack" -StartupType Automatic -ErrorAction SilentlyContinue
 Start-Service -Name "DiagTrack" -ErrorAction SilentlyContinue
 
 Write-Host ""
 Write-Host "===============================================" -ForegroundColor Green
-Write-Host "   RESTAURAÇÃO DE PADRÕES CONCLUÍDA!         " -ForegroundColor Green
-Write-Host "   Algumas alterações podem exigir reinicialização." -ForegroundColor White
+Write-Host "   RESTAURACAO DE PADROES CONCLUIDA!         " -ForegroundColor Green
+Write-Host "   Algumas alteracoes podem exigir reinicio." -ForegroundColor White
 Write-Host "===============================================" -ForegroundColor Green

@@ -4,17 +4,20 @@
 function Create-RestorePoint {
     Write-Host ">>> Criando Ponto de Restauração do Sistema..." -ForegroundColor Cyan
     try {
+        # Habilita restauração na unidade C: caso esteja desativada (comum no W11)
+        Enable-ComputerRestore -Drive "C:\" -ErrorAction SilentlyContinue
+        
         Checkpoint-Computer -Description "WinOptimize_Before_Optimization" -RestorePointType "MODIFY_SETTINGS" -ErrorAction Stop
-        Write-Host "[✓] Ponto de restauração criado com sucesso!" -ForegroundColor Green
+        Write-Host "[OK] Ponto de restauração criado com sucesso!" -ForegroundColor Green
     } catch {
-        Write-Host "[!] Erro ao criar ponto de restauração. Verifique se a Proteção do Sistema está ativada." -ForegroundColor Yellow
-        Write-Host "    Pode ser necessário executar como Administrador ou ativar manualmente no Painel de Controle." -ForegroundColor Gray
+        Write-Host "[!] Erro ao criar ponto de restauração." -ForegroundColor Yellow
+        Write-Host "    Certifique-se de estar rodando como ADMINISTRADOR." -ForegroundColor Gray
     }
 }
 
 function Open-SystemRestoreUI {
     Write-Host ">>> Abrindo Interface de Restauração do Sistema..." -ForegroundColor Gray
-    rstrui.exe
+    Start-Process "rstrui.exe"
 }
 
 # Menu de Backup
@@ -24,7 +27,7 @@ function Show-BackupMenu {
     Write-Host "       SISTEMA DE BACKUP E RESTAURAÇÃO         " -ForegroundColor White -BackgroundColor Blue
     Write-Host "===============================================" -ForegroundColor Cyan
     Write-Host "1. Criar Ponto de Restauração (Recomendado)"
-    Write-Host "2. Abrir Restauração do Sistema (Para voltar alterações)"
+    Write-Host "2. Abrir Restauração do Sistema"
     Write-Host "3. Voltar"
     Write-Host ""
     
@@ -38,8 +41,7 @@ function Show-BackupMenu {
     }
 }
 
-# Se o script for chamado diretamente, mostra o menu. 
-# Se for importado como módulo, as funções ficam disponíveis.
+# Verificação simples para evitar erro de execução
 if ($MyInvocation.InvocationName -ne '.') {
-    # Show-BackupMenu
+    # Menu desativado por padrão ao importar
 }
